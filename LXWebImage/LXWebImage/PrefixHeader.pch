@@ -1,0 +1,42 @@
+//
+//  PrefixHeader.pch
+//  LXWebImage
+//
+//  Created by 轩 on 2017/2/5.
+//  Copyright © 2017年 com.LX. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+//****************  单列的宏  **********************
+
+///一个快速创建单列类的工厂方法。
+#define KsingleTon_h(name)  + (instancetype)shared##name;
+
+///单列类的工厂方法的实现。
+
+///ARC环境下，实现单列的写法。
+//#if __has_feature(obj_arc)
+#define KsingleTon_m(name)  static id _instance;\
++ (instancetype)shared##name\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [[self alloc] init];\
+});\
+return _instance;\
+}\
+\
++ (instancetype)allocWithZone:(struct _NSZone *)zone\
+{\
+static dispatch_once_t onceToken;\
+dispatch_once(&onceToken, ^{\
+_instance = [super allocWithZone:zone];\
+});\
+return _instance;\
+}
+
+#define kCancelLastOp @"kCancelLastOp"
+
+#endif /* PrefixHeader_pch */
